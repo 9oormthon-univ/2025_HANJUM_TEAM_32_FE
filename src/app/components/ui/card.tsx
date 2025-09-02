@@ -1,5 +1,7 @@
 type BaseProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
+  src?:string;
+  alt?:string;
 }
 
 
@@ -10,9 +12,9 @@ export function Card({className = "", ...props}: BaseProps) {
     </div>
   )
 }
-export function CardImg({className = "", ...props}: BaseProps) {
+export function CardImg({className = "",src="", alt="", ...props}: BaseProps) {
   return(
-    <img className={`h-48 object-cover rounded-t-[10px] ${className}`} {...props} />
+    <img src={src} alt={alt} className={`h-48 object-cover rounded-t-[10px] ${className}`} {...props} />
   )
 }
 export function CaardHeader({className = "", ...props}: BaseProps) {

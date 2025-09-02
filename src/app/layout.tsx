@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Viewport } from "next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,14 +12,14 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: "News HanJum",
   description: "news feed app",
-  viewport:{
-    width: 'device-width',
-    initialScale: 1,
-  }
 };
 
 export default function RootLayout({

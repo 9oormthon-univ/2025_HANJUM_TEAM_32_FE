@@ -12,9 +12,9 @@
 
 
 @theme inline {
-  --primary: var(--color-primary);
-  --light-blue:  var(--color-point1);
-  --deep-blue:  var(--color-point2);
+  --color-primary: var(--color-primary);
+  --color-light-blue:  var(--color-point1);
+  --color-deep-blue:  var(--color-point2);
 
   --color-background: var(--bg);
   --color-foreground: var(--fg);
