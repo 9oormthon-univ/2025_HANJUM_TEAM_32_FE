@@ -3,8 +3,11 @@
 import { useState } from "react";
 import Button from "../components/ui/button";
 import { Card, CardBody, CardImg } from "../components/ui/card";
+import { useRouter } from "next/navigation";
+
 
 export default function selectTopic() {
+  const router = useRouter();
   const [selected, setSelected] = useState<Number[]>([]);
   const cardList = [
     {
@@ -55,7 +58,7 @@ export default function selectTopic() {
         {cardList.map((card, index) => {
           const active = selected.includes(index);
           return (
-            <Card key={index} className={`flex flex-col items-center w-[clamp(110px,40vw,200px)] h-[clamp(130px,30vw,160px)] px-4 pt-4 pb-0 border-[2.5px] text-medium border-[#e5e7eb] rounded-[10px] gap-2 cursor-pointer hover:shadow-md ${active? "border-deep-blue text-[#1c4ed8] bg-[#eff6ff]":""} `} onClick={() => toggleSelect(index)}>
+            <Card key={index} className={`flex flex-col items-center w-[clamp(110px,40vw,200px)] h-[clamp(130px,30vw,160px)] px-4 pt-4 pb-0 border-[2.5px] text-medium border-[#e5e7eb] rounded-[10px] gap-2 cursor-pointer hover:shadow-md ${active? "border-deep-blue text-[#2353d9] bg-[#eff6ff]":""} `} onClick={() => toggleSelect(index)}>
               <CardImg
                 src={card.src}
                 alt={card.src}
@@ -71,7 +74,7 @@ export default function selectTopic() {
           );
         })}
       </div>
-      <Button className="bg-deep-blue w-full text-white font-medium" type="submit">토픽 설정 저장하기</Button>
+      <Button className="bg-deep-blue w-full text-white font-medium" onClick={() => router.push("/home")} type="submit">토픽 설정 저장하기</Button>
     </div>
   );
 }

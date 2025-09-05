@@ -14,10 +14,10 @@ export function Card({className = "", ...props}: BaseProps) {
 }
 export function CardImg({className = "",src="", alt="", ...props}: BaseProps) {
   return(
-    <img src={src} alt={alt} className={`h-48 object-cover rounded-t-[10px] ${className}`} {...props} />
+    <img src={src} alt={alt} className={`h-32 object-cover rounded-t-[10px] ${className}`} {...props} />
   )
 }
-export function CaardHeader({className = "", ...props}: BaseProps) {
+export function CardHeader({className = "", ...props}: BaseProps) {
   return(
     <p className={`px-4 py-4 line-clamp-2 ${className}`} {...props}>
       {props.children}
