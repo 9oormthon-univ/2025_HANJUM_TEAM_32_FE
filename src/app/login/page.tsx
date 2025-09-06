@@ -14,7 +14,7 @@ export default function LoginPage() {
       <img src="/title.png" alt="title" className="w-[220px] h-auto" />
     </div>  
     </div>
-    <Button className={`bg-[#fee500] w-[220px] flex items-center gap-4 -translate-y-3 text- font-medium`} type="submit" iconPosition="left" onClick={() => router.push("http://localhost:8080/oauth2/authorization/kakao")} icons= {<img src="/kakaotalk.png" alt="kakaotalk logo" className="w-[40px] h-auto" />}>카카오 로그인</Button>
+    <Button className={`bg-[#fee500] w-[220px] flex items-center gap-4 -translate-y-3 text- font-medium`} type="submit" iconPosition="left" onClick={() => router.push("http://newshanjum.ddnsking.com:8080/oauth2/authorization/kakao")} icons= {<img src="/kakaotalk.png" alt="kakaotalk logo" className="w-[40px] h-auto" />}>카카오 로그인</Button>
     </div>
   </div>
   )
