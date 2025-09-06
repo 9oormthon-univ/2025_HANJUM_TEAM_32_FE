@@ -1,10 +1,12 @@
 'use client';
+
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import Icon, { Scrap } from '../../components/icones/icon';
 import Button from '../../components/ui/button';
 import { Card, CardBody, CardFooter, CardHeader, CardImg } from '../../components/ui/card';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import Image from 'next/image';
 
 function SwipePopup({ type }: { type: 'like' | 'next' }) {
   const isLike = type === 'like';
@@ -100,9 +102,21 @@ export default function News() {
         <Scrap className="w-[30px] h-auto" />
       </div>
 
+      {/* AI 해설 보기 버튼 - 캐러셀 위 */}
+      <div className="w-full flex justify-end items-center mb-2">
+        <button
+          onClick={() => router.push('/explanation')}
+          className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#DBE4FE] text-[#F] text-xs font-semibold shadow hover:bg-[#dbe4fe] transition-all"
+        >
+
+          💡AI 해설 보기
+        </button>
+      </div>
+
+
       {/* 캐러셀 영역 (단일 카드 + 스와이프 인식) */}
       <div
-        className="relative w-full rounded-2xl" // overflow-hidden 제거(그림자 잘림 방지)
+        className="relative w-full rounded-2xl"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -117,13 +131,12 @@ export default function News() {
               className="w-full"
             />
           </div>
-         <CardHeader className="flex justify-between items-start">
+          <CardHeader className="flex justify-between items-start">
             {NewsList[current]?.title}
           </CardHeader>
           <CardBody>{NewsList[current]?.content}</CardBody>
-          <CardFooter><a href={NewsList[current]?.href}>원문보기</a></CardFooter> 
+          <CardFooter><a href={NewsList[current]?.href}>원문보기</a></CardFooter>
         </Card>
-
         {/* 팝업: 스와이프 때만 표시 (전체 화면) */}
         {popup && <SwipePopup type={popup} />}
       </div>
@@ -133,12 +146,12 @@ export default function News() {
         {NewsList.map((_, i) => (
           <span
             key={i}
-            className={`h-1.5 w-4 rounded-full ${
-              i === current ? 'bg-[#8397c4]' : 'bg-[#dbe4fe]'
-            }`}
+            className={`h-1.5 w-4 rounded-full ${i === current ? 'bg-[#8397c4]' : 'bg-[#dbe4fe]'
+              }`}
           />
         ))}
       </div>
+
 
       {/* 버튼: 팝업 없이 이동만! */}
       <div className="flex justify-center items-center gap-4">
@@ -146,7 +159,7 @@ export default function News() {
           onClick={prev}
           className="w-[50px] h-[50px] rounded-full bg-light-blue flex justify-center items-center"
         >
-          <Icon  stroke="light-blue" fill="#8397c4" />
+          <Icon stroke="light-blue" fill="#8397c4" />
         </Button>
         <Button
           onClick={next}
