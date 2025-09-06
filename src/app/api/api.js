@@ -8,7 +8,6 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   const fullUrl = (config.baseURL || "") + (config.url || "");
-  console.log('[REQ]', config.method?.toUpperCase(), fullUrl, 'token?', !!token, token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -18,7 +17,6 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => {
     const fullUrl = (res.config.baseURL || "") + (res.config.url || "");
-    console.log("[RES]", res.status, fullUrl, "responseURL:", res.request?.responseURL);
     return res;
   },
   (err) => {

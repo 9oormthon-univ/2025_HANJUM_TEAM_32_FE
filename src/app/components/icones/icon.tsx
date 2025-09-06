@@ -5,7 +5,6 @@ interface IconProps extends SVGProps<SVGSVGElement> {
   className?: string;
   stroke?: string;
   fill?: string;
-
 }
 
 export function GgTrending(props:IconProps) {
@@ -71,10 +70,28 @@ const Icon = (props: IconProps) => (
 );
 export default Icon;
 
-
-
-export function Scrap(props: IconProps) {
+export function Scrap({ className, ...rest }: IconProps) {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" {...props}>{/* Icon from Cuida Icons by Sysvale - https://github.com/Sysvale/cuida-icons/blob/main/LICENSE */}<g className="bookmark-outline"><path fill="currentColor" fillRule="evenodd" d="M5 6.09A3.09 3.09 0 0 1 8.09 3h7.82A3.09 3.09 0 0 1 19 6.09v13.697c0 1.336-1.597 2.024-2.568 1.107L12 16.71l-4.432 4.185c-.97.918-2.568.229-2.568-1.107V6.091ZM8.09 5A1.09 1.09 0 0 0 7 6.09v12.59l3.954-3.735a1.523 1.523 0 0 1 2.091 0L17 18.68V6.09A1.09 1.09 0 0 0 15.91 5z" className="Vector" clipRule="evenodd" /></g></svg>
-  )
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      className={className}
+      aria-hidden="true"
+      {...rest} // fill/stroke를 svg에 주고 싶으면 여기로 전달됨
+    >
+      <g className="bookmark-outline">
+        <path
+          // 핵심: 아이콘 색상을 부모의 text-color로 받음
+          fill="currentColor"
+          // 필요하면 stroke도 currentColor로
+          //stroke="currentColor"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M5 6.09A3.09 3.09 0 0 1 8.09 3h7.82A3.09 3.09 0 0 1 19 6.09v13.697c0 1.336-1.597 2.024-2.568 1.107L12 16.71l-4.432 4.185c-.97.918-2.568.229-2.568-1.107V6.091ZM8.09 5A1.09 1.09 0 0 0 7 6.09v12.59l3.954-3.735a1.523 1.523 0 0 1 2.091 0L17 18.68V6.09A1.09 1.09 0 0 0 15.91 5z"
+        />
+      </g>
+    </svg>
+  );
 }

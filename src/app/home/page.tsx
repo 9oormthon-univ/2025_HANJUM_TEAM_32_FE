@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { GalaBell, GgTrending } from "../components/icones/icon";
@@ -6,17 +6,21 @@ import Button from "../components/ui/button";
 import { CardHeader, Card, CardBody } from "../components/ui/card";
 import PopularTopic from "../components/ui/popularTopic";
 import { getPopularTopic, getWeeklyTopic } from "../api/getTopic";
-import { getAnalysis } from "../api/getAnalysis";
+import { GetAnalysis } from "../api/getAnalysis";
+import Header from "../components/ui/layout/header";
+import Navigation from "../components/ui/layout/navigation";
 
 export default function Home() {
-  type PopularItem = { topic: string; topicId?: number; rank?:number; };
-  type AnalysisItem = {"mostViewedCategory": "string",
-    "percentage": 0,
-    "averageReadTime": "string",
-    "weeklyScrapCount": 0,
-    "recommendationMessage": "string"}
-  const [PopularTopics, setPopularTopics] = useState<PopularItem[]>([])
-  const [Analysis, setAnalysis] = useState<AnalysisItem>()
+  type PopularItem = { name: string; topicId: number; rank: number };
+  type AnalysisItem = {
+    mostViewedCategory: string;
+    percentage: number;
+    averageReadTime: string;
+    weeklyScrapCount: number;
+    recommendationMessage: string;
+  };
+  const [PopularTopics, setPopularTopics] = useState<PopularItem[]>([]);
+  const [Analysis, setAnalysis] = useState<AnalysisItem>();
   const topicList = [
     {
       topic: "코로나19",
@@ -40,20 +44,22 @@ export default function Home() {
     },
   ];
   useEffect(() => {
-    async function fetchTopic(){
-      try{
-      const weeklyTopic = await getWeeklyTopic();
-      setAnalysis(await getAnalysis());
-      setPopularTopics(await getPopularTopic());
-      }catch(err){
-        console.error('Error fetching weekly topics:', err);
+    async function fetchTopic() {
+      try {
+        const weeklyTopic = await getWeeklyTopic();
+        setAnalysis(await GetAnalysis());
+        setPopularTopics(await getPopularTopic());
+      } catch (err) {
+        console.error("Error fetching weekly topics:", err);
       }
     }
-    
+
     fetchTopic();
-  },[])
+  }, []);
   return (
     <div className="bg-[#f9fbff] min-h-screen max-w-screen-sm mx-auto px-8 flex flex-col gap-6 py-8">
+      <Header />
+      <div className="h-8" />
       <div className="flex items-center gap-4 py-4">
         <div className="bg-[#f1e8fd] rounded-full w-max h-full p-4">
           <GgTrending
@@ -68,13 +74,13 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <Button className="border-[#edeef1] border-[2px] bg-white rounded-[15px] w-[60px] h-auto">
-          오늘
+        <Button className="border-[#edeef1] border-[2px] bg-white rounded-[15px] w-[80px] h-auto">
+          이번 주
         </Button>
       </div>
       <Card className="bg-white w-full rounded-[10px] h-max ">
-        <CardHeader className="font-semibold">오늘의 토픽 트렌드</CardHeader>
-        <div className="h-[200px]"></div>
+        <CardHeader className="font-semibold">이번 주 토픽 트렌드</CardHeader>
+        <img src="/pic.png" className="w- auto h-[300px]" />
       </Card>
       <Card className="bg-white w-full h-max rounded-[10px] ">
         <CardHeader className="font-semibold">인기 토픽 TOP 5</CardHeader>
@@ -83,43 +89,52 @@ export default function Home() {
             return (
               <PopularTopic
                 key={index}
-                order={index + 1}
+                rank={topic.rank}
                 className={`${index === 4 ? "border-0" : ""}`}
-                topic={topic.topic}
+                topic={topic.name}
               />
             );
           })}
         </CardBody>
       </Card>
-      <Card className="bg-white w-full h-max rounded-[10px] p-3">
+      <Card className="bg-white w-full h-max rounded-[10px] mb-16 p-3">
         <CardHeader className="font-semibold">나의 관심사 분석</CardHeader>
         <CardBody>
           <div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481]">가장 많이 본 카테고리</div>
-              <div className="text-deep-blue font-semibold sm:text-xs">{Analysis?.mostViewedCategory}<span>{Analysis?.percentage}</span></div>
+              <div className="text-deep-blue font-semibold ">
+                
+                AI
+              </div>
             </div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481]">평균 읽기 시간</div>
-              <div className="text-[#9333e9] font-semibold">{Analysis?.averageReadTime}</div>
+              <div className="text-[#9333e9] font-semibold ">
+                4분 20초
+              </div>
             </div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481] ">이번주 스크랩</div>
-              <div className="text-[#25a854] font-semibold">{Analysis?.weeklyScrapCount}</div>
+              <div className="text-[#25a854] font-semibold">
+                3회
+              </div>
             </div>
           </div>
           <div className="bg-gradient-to-bl from-[#F0F5FE] to-[#F9F5FE] rounded-[10px] p-4">
             <div className="flex gap-2 mb-2 items-center">
-              <GalaBell stroke = "#3557ff" />
+              <GalaBell stroke="#3557ff" />
               <div className="text-[#3557ff] font-medium">추천</div>
             </div>
-            
+
             <div className="text-[#4262FF] text-sm">
               {Analysis?.recommendationMessage}
             </div>
           </div>
         </CardBody>
       </Card>
+      
+      <Navigation />
     </div>
   );
 }

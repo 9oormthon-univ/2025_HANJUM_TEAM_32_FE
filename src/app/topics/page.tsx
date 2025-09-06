@@ -6,6 +6,7 @@ import { Card, CardBody, CardImg } from "../components/ui/card";
 import { useRouter } from "next/navigation";
 import { postTopic } from "../api/postTopic";
 import axios from "axios";
+import Header from "../components/ui/layout/header";
 
 export default function SelectTopic() {
   const router = useRouter();
@@ -98,6 +99,8 @@ export default function SelectTopic() {
 
   return (
     <div className="max-w-screen-sm min-h-screen mx-auto px-8 bg-[#f9fafb] flex flex-col items-center justify-center gap-6">
+      <Header />
+      <div className="h-10" />
       <div className="grid grid-cols-2 gap-4">
         {cardList.map((card, index) => {
           const active = selected.includes(index);
@@ -123,7 +126,7 @@ export default function SelectTopic() {
         })}
       </div>
 
-      <Button className="bg-deep-blue w-full text-white font-medium" onClick={handleSendTopic} type="button">
+      <Button className="bg-deep-blue w-full text-white font-medium" onClick={() => router.push("/home")} type="button">
         토픽 설정 저장하기
       </Button>
     </div>
