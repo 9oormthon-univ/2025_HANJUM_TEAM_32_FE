@@ -1,9 +1,22 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import { GalaBell, GgTrending } from "../components/icones/icon";
 import Button from "../components/ui/button";
 import { CardHeader, Card, CardBody } from "../components/ui/card";
 import PopularTopic from "../components/ui/popularTopic";
+import { getPopularTopic, getWeeklyTopic } from "../api/getTopic";
+import { getAnalysis } from "../api/getAnalysis";
 
 export default function Home() {
+  type PopularItem = { topic: string; topicId?: number; rank?:number; };
+  type AnalysisItem = {"mostViewedCategory": "string",
+    "percentage": 0,
+    "averageReadTime": "string",
+    "weeklyScrapCount": 0,
+    "recommendationMessage": "string"}
+  const [PopularTopics, setPopularTopics] = useState<PopularItem[]>([])
+  const [Analysis, setAnalysis] = useState<AnalysisItem>()
   const topicList = [
     {
       topic: "코로나19",
@@ -26,6 +39,19 @@ export default function Home() {
       description: "최신 기술 혁신과 트렌드",
     },
   ];
+  useEffect(() => {
+    async function fetchTopic(){
+      try{
+      const weeklyTopic = await getWeeklyTopic();
+      setAnalysis(await getAnalysis());
+      setPopularTopics(await getPopularTopic());
+      }catch(err){
+        console.error('Error fetching weekly topics:', err);
+      }
+    }
+    
+    fetchTopic();
+  },[])
   return (
     <div className="bg-[#f9fbff] min-h-screen max-w-screen-sm mx-auto px-8 flex flex-col gap-6 py-8">
       <div className="flex items-center gap-4 py-4">
@@ -53,14 +79,13 @@ export default function Home() {
       <Card className="bg-white w-full h-max rounded-[10px] ">
         <CardHeader className="font-semibold">인기 토픽 TOP 5</CardHeader>
         <CardBody>
-          {topicList.map((topic, index) => {
+          {PopularTopics.map((topic, index) => {
             return (
               <PopularTopic
                 key={index}
                 order={index + 1}
                 className={`${index === 4 ? "border-0" : ""}`}
                 topic={topic.topic}
-                description={topic.description}
               />
             );
           })}
@@ -72,15 +97,15 @@ export default function Home() {
           <div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481]">가장 많이 본 카테고리</div>
-              <div className="text-deep-blue font-semibold">AI (35%)</div>
+              <div className="text-deep-blue font-semibold sm:text-xs">{Analysis?.mostViewedCategory}<span>{Analysis?.percentage}</span></div>
             </div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481]">평균 읽기 시간</div>
-              <div className="text-[#9333e9] font-semibold">4분 12초</div>
+              <div className="text-[#9333e9] font-semibold">{Analysis?.averageReadTime}</div>
             </div>
             <div className="flex justify-between mb-4">
               <div className="text-[#667481] ">이번주 스크랩</div>
-              <div className="text-[#25a854] font-semibold">3개</div>
+              <div className="text-[#25a854] font-semibold">{Analysis?.weeklyScrapCount}</div>
             </div>
           </div>
           <div className="bg-gradient-to-bl from-[#F0F5FE] to-[#F9F5FE] rounded-[10px] p-4">
@@ -90,8 +115,7 @@ export default function Home() {
             </div>
             
             <div className="text-[#4262FF] text-sm">
-              ai 분야에 관심이 높으시네요! ‘머신러닝’과 ‘로봇공학’ 토픽도
-              추가해보세요!
+              {Analysis?.recommendationMessage}
             </div>
           </div>
         </CardBody>

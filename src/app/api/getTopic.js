@@ -8,10 +8,10 @@ export const getTopicList = async () => {
 
 export const getWeeklyTopic = async () => {
   const res = await api.get('/topics/trends/weekly');
-  return res.result; // 배열 반환
+  return res.dataresult; // 배열 반환
 };
 
 export const getPopularTopic = async () => {
   const res = await api.get('/topics/popular');
-  return res.result; // 배열 반환
+  return res.dataresult; // 배열 반환
 };
